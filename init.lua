@@ -83,6 +83,21 @@ I hope you enjoy your Neovim journey,
 
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
+if vim.fn.has 'win64' then
+  vim.o.shell = 'pwsh'
+  local powershell_options = {
+    -- shell = vim.fn.executable "pwsh" == 1 and "pwsh" or "powershell",
+    shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;',
+    shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait',
+    shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode',
+    shellquote = '',
+    shellxquote = '',
+  }
+
+  for option, value in pairs(powershell_options) do
+    vim.opt[option] = value
+  end
+end
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
@@ -793,7 +808,7 @@ require('lazy').setup({
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-
+  { 'akinsho/toggleterm.nvim', version = '*', config = true },
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
@@ -874,11 +889,11 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
@@ -907,6 +922,55 @@ require('lazy').setup({
     },
   },
 })
+
+-- My stufff
+
+vim.opt.cmdheight = 0
+if vim.g.neovide then
+  vim.o.guifont = 'FiraCode Nerd Font:h9'
+  vim.g.neovide_hide_mouse_when_typing = true
+  vim.g.neovide_remember_window_size = true
+  --vim.g.neovide_scroll_animation_length = 0.1
+  --vim.g.neovide_scroll_animation_far_lines = 0
+
+  --vim.g.neovide_cursor_animation_length = 0.05
+
+  --vim.g.neovide_cursor_vfx_particle_speed = 1.0
+end
+
+vim.keymap.set('t', 'jk', '<C-\\><C-n>')
+vim.keymap.set('i', 'jk', '<ESC>')
+vim.keymap.set('n', '<leader>w', ':w<CR>')
+vim.keymap.set('n', '<leader>ms', ':vs<CR>', { desc = 'Vertical Split' })
+
+-- Define keybinding to toggle between the current buffer and the previously active buffer
+vim.keymap.set('n', '<BS>', function()
+  vim.cmd 'buffer #'
+end, { noremap = true, silent = true })
+
+-- autocommands
+--- This function is taken from https://github.com/norcalli/nvim_utils
+local function nvim_create_augroups(definitions)
+  for group_name, definition in pairs(definitions) do
+    vim.api.nvim_command('augroup ' .. group_name)
+    vim.api.nvim_command 'autocmd!'
+    for _, def in ipairs(definition) do
+      local command = table.concat(vim.tbl_flatten { 'autocmd', def }, ' ')
+      vim.api.nvim_command(command)
+    end
+    vim.api.nvim_command 'augroup END'
+  end
+end
+
+local autocmds = {
+  terminal_job = {
+    { 'TermOpen', '*', [[tnoremap <buffer> <Esc> <c-\><c-n>]] },
+    { 'TermOpen', '*', 'startinsert' },
+    { 'TermOpen', '*', 'setlocal listchars= nonumber norelativenumber' },
+  },
+}
+
+nvim_create_augroups(autocmds)
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
