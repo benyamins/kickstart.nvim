@@ -808,7 +808,7 @@ require('lazy').setup({
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-  { 'akinsho/toggleterm.nvim', version = '*', config = true },
+  { 'akinsho/toggleterm.nvim', version = '*', opts = { open_mapping = [[<c-\>]], size = 30 } },
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
@@ -942,6 +942,7 @@ vim.keymap.set('t', 'jk', '<C-\\><C-n>')
 vim.keymap.set('i', 'jk', '<ESC>')
 vim.keymap.set('n', '<leader>w', ':w<CR>')
 vim.keymap.set('n', '<leader>ms', ':vs<CR>', { desc = 'Vertical Split' })
+vim.keymap.set('n', '<leader>mt', ':ToggleTerm size=40 direction=float<CR>', { desc = 'Open floating terminal' })
 
 -- Define keybinding to toggle between the current buffer and the previously active buffer
 vim.keymap.set('n', '<BS>', function()
