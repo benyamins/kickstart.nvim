@@ -1,19 +1,20 @@
 vim.opt.relativenumber = true
+
 if vim.loop.os_uname().sysname == 'Windows_NT' then
-  -- Check if 'pwsh' (PowerShell Core) is available, otherwise use 'powershell'
-  vim.opt.shell = 'pwsh-preview.cmd'
+  local powershell_options = {
+    shell = 'pwsh.exe',
+    shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;',
+    shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait',
+    shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode',
+    shellquote = '',
+    shellxquote = '',
+  }
 
-  -- Configure shellcmdflag
-  vim.opt.shellcmdflag =
-    '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new();$PSDefaultParameterValues["Out-File:Encoding"]="utf8";Remove-Alias -Force -ErrorAction SilentlyContinue tee'
+  for option, value in pairs(powershell_options) do
+    vim.o[option] = value
+  end
+end
 
-  -- Configure shellredir
-  vim.opt.shellredir = '2>&1 | %%{ "$_" } | Out-File %s; exit $LastExitCode'
-
-  -- Configure shellpipe
-  vim.opt.shellpipe = '2>&1 | %%{ "$_" } | tee %s; exit $LastExitCode'
-
-  -- Set shellquote and shellxquote to empty strings
-  vim.opt.shellquote = ''
-  vim.opt.shellxquote = ''
+if vim.g.neovide then
+  vim.o.guifont = 'JetBrains Mono:h9' -- text below applies for VimScript
 end
