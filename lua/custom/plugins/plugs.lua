@@ -41,12 +41,13 @@ return {
   {
     'nvim-treesitter/nvim-treesitter-context',
     config = function()
-      require('treesitter-context').setup()
+      require('treesitter-context').setup {
+        max_lines = 4,
+      }
     end,
   },
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.neo-tree',
   {
     'OXY2DEV/markview.nvim',
     lazy = false, -- Recommended
