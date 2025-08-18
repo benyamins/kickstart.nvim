@@ -974,7 +974,7 @@ require('lazy').setup({
 
 -- MY SETUP
 
-vim.api.nvim_set_keymap('n', '<backspace>', ':bprevious<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<backspace>', ':w<CR>', { noremap = true, silent = true })
 
 if vim.g.neovide then
   vim.o.guifont = 'GeistMono_NF:h9'
