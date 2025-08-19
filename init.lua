@@ -123,7 +123,7 @@ vim.o.breakindent = true
 vim.o.undofile = true
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-vim.o.ignorecase = true
+--vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Keep signcolumn on by default
@@ -974,7 +974,8 @@ require('lazy').setup({
 
 -- MY SETUP
 
-vim.api.nvim_set_keymap('n', '<backspace>', ':w<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<backspace>', '<C-^>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>w', ':w<CR>', { noremap = true, silent = true, desc = 'Save like [:w]' })
 
 if vim.g.neovide then
   vim.o.guifont = 'GeistMono_NF:h9'
