@@ -37,4 +37,50 @@ return {
       vim.keymap.set('n', '<leader>rd', resession.delete, { desc = 'ressesion [d]elete' })
     end,
   },
+  {
+    'datsfilipe/vesper.nvim',
+    config = function()
+      local vesper = require 'vesper'
+      vesper.setup {
+        transparent = false, -- Boolean: Sets the background to transparent
+        italics = {
+          comments = true, -- Boolean: Italicizes comments
+          keywords = false, -- Boolean: Italicizes keywords
+          functions = true, -- Boolean: Italicizes functions
+          strings = false, -- Boolean: Italicizes strings
+          variables = false, -- Boolean: Italicizes variables
+        },
+        overrides = {}, -- A dictionary of group names, can be a function returning a dictionary or a table.
+        palette_overrides = {},
+      }
+    end,
+  },
+  {
+    'thesimonho/kanagawa-paper.nvim',
+    priority = 1000,
+    opts = {},
+    config = function()
+      local theme = require 'kanagawa-paper'
+      theme.setup {
+        color_offset = {
+          ink = { brightness = 1, saturation = 1 },
+          canvas = { brightness = 0, saturation = 0 },
+        },
+      }
+    end,
+  },
+  -- lua/plugins/rose-pine.lua
+  {
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    config = function()
+      require('rose-pine').setup {
+        styles = {
+          bold = true,
+          italic = false,
+          transparency = false,
+        },
+      }
+    end,
+  },
 }
