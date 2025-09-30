@@ -978,7 +978,7 @@ vim.api.nvim_set_keymap('n', '<backspace>', '<C-^>', { noremap = true, silent = 
 vim.keymap.set('n', '<leader>w', ':w<CR>', { noremap = true, silent = true, desc = 'Save like [:w]' })
 
 if vim.g.neovide then
-  vim.o.guifont = 'GeistMono_NF:h9'
+  vim.o.guifont = 'Iosevka_NF:h9'
 end
 
 vim.cmd.colorscheme 'rose-pine-moon'
