@@ -986,15 +986,5 @@ do
   -- require 'custom.plugins'
 end
 
--- MY SETUP
-
-vim.api.nvim_set_keymap('n', '<backspace>', '<C-^>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>w', ':w<CR>', { noremap = true, silent = true, desc = 'Save like [:w]' })
-
-if vim.g.neovide then
-  vim.o.guifont = 'Iosevka_NF:h9'
-end
-
-vim.cmd.colorscheme 'lunaperche'
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
