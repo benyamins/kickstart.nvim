@@ -6,6 +6,7 @@ vim.opt.jumpoptions:append 'view'
 -- Personal keymaps
 vim.api.nvim_set_keymap('n', '<backspace>', '<C-^>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>w', ':w<CR>', { noremap = true, silent = true, desc = 'Save like [:w]' })
+vim.keymap.set('n', '<leader>d', '<Cmd>detach<CR>', { silent = true, desc = '[D]etach UI' })
 vim.keymap.set('t', 'jk', [[<C-\><C-n>]], { desc = 'Exit terminal mode' })
 
 local has_which_key, which_key = pcall(require, 'which-key')
